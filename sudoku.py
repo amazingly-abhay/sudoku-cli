@@ -1,4 +1,5 @@
 import random
+import os
 
 def generate_board(difficulty='easy'):
     board = [
@@ -22,19 +23,29 @@ def generate_board(difficulty='easy'):
             board[x][y] = 0
     return board
 
-
 def print_board(board):
+    color_reset = "\033[0m"
+    color_number = "\033[32m"  # Green for numbers
+    color_empty = "\033[90m"   # Dark Gray for empty cells
+    color_separator = "\033[96m"  # Light Cyan for separators
+
+    # Get terminal width
+    terminal_width = os.get_terminal_size().columns
+    grid_width = 39
+    padding = (terminal_width - grid_width) // 2
+    
     for i in range(9):
         if i % 3 == 0 and i != 0:
-            print("-" * 21)
+            print(" " * padding + color_separator + "-" * 23 + color_reset)
+        line = ""
         for j in range(9):
             if j % 3 == 0 and j != 0:
-                print(" | ", end="")
-            if j == 8:
-                print(board[i][j])
+                line += color_separator + " | " + color_reset
+            if board[i][j] == 0:
+                line += f"{color_empty}{board[i][j]}{color_reset} "
             else:
-                print(f"{board[i][j]} ", end="")
-
+                line += f"{color_number}{board[i][j]}{color_reset} "
+        print(" " * padding + line)
 
 def is_valid_move(board, row, col, num):
     for i in range(9):
@@ -48,13 +59,11 @@ def is_valid_move(board, row, col, num):
                 return False
     return True
 
-
 def is_solved(board):
     for row in board:
         if 0 in row:
             return False
     return True
-
 
 def play_sudoku():
     print("Welcome to CLI Sudoku!")
@@ -81,15 +90,13 @@ def play_sudoku():
             if is_valid_move(board, row - 1, col - 1, num):
                 board[row - 1][col - 1] = num
             else:
-                print("Invalid move. Try again.")
+                print("\033[31mInvalid move. Try again.\033[0m")
         except ValueError:
-            print("Invalid input. Please enter numbers in the format: row column number.")
+            print("\033[31mInvalid input. Please enter numbers in the format: row column number.\033[0m")
     
     if is_solved(board):
         print("Congratulations! You solved the Sudoku.")
         print_board(board)
-
-
 
 if __name__ == "__main__":
     play_sudoku()
