@@ -20,3 +20,15 @@ A cli based sudoku game with easy, medium and hard difficulty level.
 - Select your difficulty level.
 - Enter your moves in the format "row column number".
 - Enjoy solving the puzzle, or exit anytime by pressing 'q'.
+
+
+## Play on your system
+
+Clone the repository
+
+```bash
+  git clone https://github.com/amazingly-abhay/sudoku-cli.git
+  cd sudoku-cli
+  python sudoku.py
+```
+Now, Play the game....
